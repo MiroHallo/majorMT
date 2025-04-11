@@ -59,6 +59,21 @@ mech(j) = 1;
 % Get azimuth and dip of second plane
 [s2,d2,r2] = AuxPlane(s1,d1,r1);
 
+% Swith with the second plane for bad cases (MH 4/2025)
+for ev = 1:ne
+    if (d1(ev)<5) || ( ((s1(ev)>30 && s1(ev)<120) && (r1(ev)>-10 && r1(ev)<100)) && ~((d1(ev)>89.5) && (r1(ev)>88 && r1(ev)<92)) )
+    sTMP = s1(ev);
+    dTMP = d1(ev);
+	rTMP = r1(ev);
+    s1(ev) = s2(ev);
+    d1(ev) = d2(ev);
+	r1(ev) = r2(ev);
+    s2(ev) = sTMP(ev);
+    d2(ev) = dTMP(ev);
+	r2(ev) = rTMP(ev);
+    end
+end
+
 if diam(1) > 0
 	hold on
 end
